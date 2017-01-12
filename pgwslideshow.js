@@ -3,7 +3,7 @@
  *
  * Copyright 2014, Jonathan M. Piat
  * http://pgwjs.com - http://pagawa.com
- * 
+ *
  * Released under the GNU GPLv3 license - http://opensource.org/licenses/gpl-3.0
  */
 ;(function($){
@@ -21,7 +21,8 @@
             maxHeight : null,
             adaptiveDuration : 200,
             transitionDuration : 500,
-            intervalDuration : 3000
+            intervalDuration : 3000,
+            pauseOnHovering : true
         };
 
         if (this.length == 0) {
@@ -103,7 +104,7 @@
                 });
             } else {
                 pgwSlideshow.plugin.find('.ps-current').css('height', height);
-                
+
                 if (pgwSlideshow.config.maxHeight) {
                     pgwSlideshow.plugin.find('.ps-current > ul > li img').css('max-height', height + 'px');
                 }
@@ -115,7 +116,7 @@
         // Set list width
         var setListWidth = function() {
             var listWidth = 0;
-            
+
             // The plugin must be visible for a correct calculation
             pgwSlideshow.plugin.show();
 
@@ -216,7 +217,7 @@
 
                 $(this).addClass('elt_' + element.id);
                 $(this).wrapInner('<span class="ps-item' + (elementId == 1 ? ' ps-selected' : '') + '"></span>');
-                
+
                 // Set element in the current list
                 var currentElement = $('<li class="elt_' + elementId + '"></li>');
 
@@ -251,8 +252,8 @@
                 pgwSlideshow.plugin.find('.ps-list').hide();
             }
 
-            // Attach slide events
-            if (pgwSlideshow.config.autoSlide) {
+            // Attach slide events if pauseOnHovering is set to true
+            if (pgwSlideshow.config.autoSlide && pgwSlideshow.config.pauseOnHovering) {
                 pgwSlideshow.plugin.on('mouseenter', function() {
                     clearInterval(pgwSlideshow.intervalEvent);
                     pgwSlideshow.intervalEvent = null;
@@ -312,7 +313,7 @@
             if ((typeof elementTitle != 'undefined') && (elementTitle != '')) {
                 element.title = elementTitle;
             }
-            
+
             // Get description
             var elementDescription = obj.find('img').attr('data-description');
             if ((typeof elementDescription != 'undefined') && (elementDescription != '')) {
@@ -718,7 +719,7 @@
         var checkSelectedItem = function() {
             var containerWidth = pgwSlideshow.plugin.find('.ps-list').width();
             var listObject = pgwSlideshow.plugin.find('.ps-list > ul');
-            var listWidth = listObject.width();  
+            var listWidth = listObject.width();
 
             var marginLeft = parseInt(listObject.css('margin-left'));
             var marginRight = parseInt(listObject.css('margin-right'));
